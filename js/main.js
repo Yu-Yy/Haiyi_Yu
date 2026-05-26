@@ -141,3 +141,30 @@ function updateHeader() {
 }
 
 window.addEventListener('scroll', updateHeader, { passive: true });
+
+// ========================================
+// Dark Mode Toggle
+// ========================================
+
+const THEME_KEY = 'portfolio-theme';
+const themeToggle = document.getElementById('themeToggle');
+
+function applyTheme(dark) {
+  document.documentElement.classList.toggle('dark', dark);
+  if (dark) {
+    themeToggle.querySelector('.theme-toggle-icon').textContent = '◑';
+  } else {
+    themeToggle.querySelector('.theme-toggle-icon').textContent = '◐';
+  }
+}
+
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const savedTheme = localStorage.getItem(THEME_KEY);
+const isDark = savedTheme !== null ? savedTheme === 'dark' : prefersDark;
+applyTheme(isDark);
+
+themeToggle.addEventListener('click', () => {
+  const nextDark = !document.documentElement.classList.contains('dark');
+  applyTheme(nextDark);
+  localStorage.setItem(THEME_KEY, nextDark ? 'dark' : 'light');
+});

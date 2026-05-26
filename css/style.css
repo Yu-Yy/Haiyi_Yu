@@ -29,6 +29,20 @@
 
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --transition-theme: 0.4s ease;
+}
+
+html.dark {
+  --color-bg: #1a1815;
+  --color-bg-alt: #221f1b;
+  --color-text: #e0d6c4;
+  --color-text-secondary: #a69880;
+  --color-text-muted: #6b5d4f;
+  --color-accent: #d4945b;
+  --color-accent-subtle: #3d2e1c;
+  --color-border: #3d3628;
+  --color-white: #2a2722;
 }
 
 /* ========================================
@@ -56,6 +70,7 @@ body {
   line-height: 1.75;
   color: var(--color-text);
   background-color: var(--color-bg);
+  transition: background-color var(--transition-theme), color var(--transition-theme);
 }
 
 img {
@@ -109,11 +124,11 @@ h1, h2, h3, h4 {
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(250, 247, 242, 0.85);
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.3s var(--ease-out);
+  transition: border-color 0.3s var(--ease-out), background-color var(--transition-theme);
 }
 
 .site-header.scrolled {
@@ -193,6 +208,36 @@ h1, h2, h3, h4 {
   margin: 0 2px;
   color: var(--color-border);
   user-select: none;
+}
+
+/* Dark mode toggle */
+
+.theme-toggle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, background-color var(--transition-theme);
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+}
+
+.theme-toggle-icon {
+  font-size: 0.8rem;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+html.dark .theme-toggle-icon {
+  transform: rotate(180deg);
 }
 
 /* ========================================
@@ -296,6 +341,21 @@ h1, h2, h3, h4 {
   overflow: hidden;
   border-radius: 2px;
   background: var(--color-accent-subtle);
+  cursor: crosshair;
+  position: relative;
+}
+
+.project-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+  pointer-events: none;
+}
+
+.project-item:hover .project-visual::after {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .project-visual img {

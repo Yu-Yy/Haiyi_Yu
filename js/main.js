@@ -175,3 +175,36 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
     applyTheme(e.matches);
   }
 });
+
+// ========================================
+// Lightbox
+// ========================================
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+document.querySelectorAll('.project-visual img').forEach((img) => {
+  img.parentElement.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightbox.setAttribute('aria-hidden', 'false');
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+});
